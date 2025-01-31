@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-actions-demo
+  name: github-actions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: github-actions-demo
+  template:
+    metadata:
+      labels:
+        app: github-actions-demo
+    spec:
+      containers:
+        - name: github-actions-demo
+          image: apple1002/github-actions-demo:latest
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: github-actions-demo-service
+  namespace: github-actiosn
+spec:
+  selector:
+    app: github-actions-demo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: NodePort
+
