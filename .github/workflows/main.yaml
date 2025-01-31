@@ -40,8 +40,10 @@ jobs:
 
       - name: Authenticate with Kubernetes
         run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig.yaml
-          export KUBECONFIG=kubeconfig.yaml
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
+          export KUBECONFIG=$HOME/.kube/config
+          chmod 600 $HOME/.kube/config  # Ensure correct permissions
+          kubectl cluster-info  # Check if cluster is accessible
 
       - name: Update Kubernetes Deployment
         run: |
